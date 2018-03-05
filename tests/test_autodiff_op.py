@@ -91,6 +91,20 @@ def test_sigmoid():
 
     print(y_val, grad_x_val)
 
+def test_softmax():
+    x2_pred = ad.Variable(name='x2_pred')
+    x2_actu = ad.Variable(name='x2_actu')
+
+    y = th.nn.softmax_cross_entropy_with_logits(x2_pred, x2_actu)
+    x2_pred_grad, x2_actu_grad = ad.gradients(y, [x2_pred, x2_actu])
+    x2_pred_val = np.array([[0.8, 0.01, 0.5], [0.8, 0.01, 0.5]])
+    x2_actu_val = np.array([[1.0, 1.0, 0], [1.0, 1.0, 0]])
+
+    executor = ad.Executor([y, x2_pred_grad, x2_actu_grad])
+    y_val, x2_pred_grad_val, x2_actu_grad_val = executor.run(feed_shapes={x2_pred: x2_pred_val, x2_actu: x2_actu_val})
+
+    print(x2_pred_grad_val)
+
 
 if __name__ == '__main__':
     test_dummy()
@@ -98,3 +112,4 @@ if __name__ == '__main__':
     test_matmul()
     test_relu()
     test_sigmoid()
+    test_softmax()

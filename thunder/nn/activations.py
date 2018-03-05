@@ -14,6 +14,7 @@ __author__ = 'haxu'
 
 import numpy as np
 from thunder.autodiff.autodiff import Op
+from thunder.nn.utils import softmax_func
 
 try:
     from thunder.ndarray import gpu_op, ndarray
@@ -91,6 +92,29 @@ class SigmoidOp(Op):
         return input_shapes[0]
 
 
+class SoftmaxOp(Op):
+    def __call__(self, node_A):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A]
+        new_node.name = 'SoftmaxOp({0:s})'.format(node_A.name)
+        return new_node
+
+    def compute(self, node, input_vals, output_val, use_numpy=True):
+        assert len(input_vals) == 1
+        if use_numpy:
+            output_val[:] = softmax_func(input_vals[0])
+        else:
+            gpu_op.softmax(input_vals[0], output_val)
+
+    def gradient(self, node, output_grads):
+        raise NotImplementedError('Not yet implemented, Please use CrossEntropy operator')
+
+    def infer_shape(self, node, input_shapes):
+        assert len(input_shapes) == 1
+        return input_shapes[0]
+
+
 relu = ReluOp()
 relu_grad = ReluGradientOp()
 sigmoid = SigmoidOp()
+softmax = SoftmaxOp()

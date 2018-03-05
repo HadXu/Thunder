@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d026e60b-8620-4299-bb09-bd142c7e42e5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/thunder/nn/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/thunder/nn/activations.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/thunder/nn/loss_functions.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/thunder/nn/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_autodiff_op.py" afterPath="$PROJECT_DIR$/tests/test_autodiff_op.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/thunder/__init__.py" afterPath="$PROJECT_DIR$/thunder/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/thunder/autodiff/__init__.py" afterPath="$PROJECT_DIR$/thunder/autodiff/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/thunder/autodiff/executor.py" afterPath="$PROJECT_DIR$/thunder/autodiff/executor.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/thunder/nn/__init__.py" afterPath="$PROJECT_DIR$/thunder/nn/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/thunder/nn/activations.py" afterPath="$PROJECT_DIR$/thunder/nn/activations.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,110 +17,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Thunder$test_autodiff_op.coverage" NAME="test_autodiff_op Coverage Results" MODIFIED="1520217241627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/Thunder$test_autodiff_op.coverage" NAME="test_autodiff_op Coverage Results" MODIFIED="1520252266542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="test_autodiff_op.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_autodiff_op.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="87" column="35" lean-forward="false" selection-start-line="87" selection-start-column="35" selection-end-line="87" selection-end-column="35" />
-              <folding>
-                <element signature="e#357#377#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thunder/nn/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="15" column="32" lean-forward="false" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
-              <folding>
-                <element signature="e#349#378#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thunder/autodiff/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thunder/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="5" column="38" lean-forward="false" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="executor.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thunder/autodiff/executor.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="583">
-              <caret line="51" column="33" lean-forward="false" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="autodiff.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thunder/autodiff/autodiff.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="420" column="9" lean-forward="false" selection-start-line="420" selection-start-column="0" selection-end-line="420" selection-end-column="9" />
-              <folding>
-                <element signature="e#127#1004#0" expanded="false" />
-                <element signature="e#1029#1390#0" expanded="false" />
-                <element signature="e#1414#2088#0" expanded="false" />
-                <element signature="e#2119#2765#0" expanded="false" />
-                <element signature="e#2789#3551#0" expanded="false" />
-                <element signature="e#3582#4306#0" expanded="false" />
-                <element signature="e#4346#4959#0" expanded="false" />
-                <element signature="e#4983#6667#0" expanded="false" />
-                <element signature="e#6698#7452#0" expanded="false" />
-                <element signature="e#7479#8986#0" expanded="false" />
-                <element signature="e#9010#9886#0" expanded="false" />
-                <element signature="e#9917#10649#0" expanded="false" />
-                <element signature="e#10681#11021#0" expanded="false" />
-                <element signature="e#11051#11852#0" expanded="false" />
-                <element signature="e#11881#12680#0" expanded="false" />
-                <element signature="e#12707#12800#0" expanded="false" />
-                <element signature="e#12834#12953#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activations.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/thunder/nn/activations.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="69" column="20" lean-forward="false" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
-              <folding>
-                <element signature="e#349#367#0" expanded="true" />
-                <element signature="e#516#1157#0" expanded="false" />
-                <element signature="e#1190#2014#0" expanded="false" />
-                <element signature="e#2042#2777#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -141,10 +40,12 @@
         <option value="$PROJECT_DIR$/thunder/autodiff/autodiff.py" />
         <option value="$PROJECT_DIR$/thunder/autodiff/executor.py" />
         <option value="$PROJECT_DIR$/thunder/autodiff/__init__.py" />
-        <option value="$PROJECT_DIR$/thunder/nn/activations.py" />
         <option value="$PROJECT_DIR$/thunder/__init__.py" />
+        <option value="$PROJECT_DIR$/thunder/nn/activations.py" />
+        <option value="$PROJECT_DIR$/thunder/nn/utils.py" />
         <option value="$PROJECT_DIR$/thunder/nn/__init__.py" />
         <option value="$PROJECT_DIR$/tests/test_autodiff_op.py" />
+        <option value="$PROJECT_DIR$/thunder/nn/loss_functions.py" />
       </list>
     </option>
   </component>
@@ -189,6 +90,18 @@
               <item name="Thunder" type="b2602c69:ProjectViewProjectNode" />
               <item name="Thunder" type="462c0819:PsiDirectoryNode" />
               <item name="thunder" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Thunder" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Thunder" type="462c0819:PsiDirectoryNode" />
+              <item name="thunder" type="462c0819:PsiDirectoryNode" />
+              <item name="autodiff" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Thunder" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Thunder" type="462c0819:PsiDirectoryNode" />
+              <item name="thunder" type="462c0819:PsiDirectoryNode" />
+              <item name="ndarray" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Thunder" type="b2602c69:ProjectViewProjectNode" />
@@ -269,13 +182,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2756953" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34340993" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -341,53 +253,7 @@
         <state relative-caret-position="210">
           <caret line="19" column="6" lean-forward="false" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
           <folding>
-            <element signature="e#346#378#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thunder/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="38" lean-forward="false" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thunder/autodiff/executor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="51" column="33" lean-forward="false" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thunder/autodiff/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thunder/nn/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="32" lean-forward="false" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
-          <folding>
-            <element signature="e#349#378#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_autodiff_op.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="87" column="35" lean-forward="false" selection-start-line="87" selection-start-column="35" selection-end-line="87" selection-end-column="35" />
-          <folding>
-            <element signature="e#357#377#0" expanded="true" />
+            <element signature="e#346#378#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -418,15 +284,95 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/thunder/autodiff/executor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="51" column="33" lean-forward="false" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#18#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/numpy/core/fromnumeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-941">
+          <caret line="2172" column="46" lean-forward="false" selection-start-line="2172" selection-start-column="46" selection-end-line="2172" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thunder/nn/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="22" column="4" lean-forward="false" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thunder/ndarray/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thunder/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="38" lean-forward="false" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thunder/autodiff/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_autodiff_op.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2014">
+          <caret line="106" column="0" lean-forward="true" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+          <folding>
+            <element signature="e#357#377#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thunder/nn/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="61" lean-forward="false" selection-start-line="17" selection-start-column="61" selection-end-line="17" selection-end-column="61" />
+          <folding>
+            <element signature="e#349#378#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/thunder/nn/activations.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="69" column="20" lean-forward="false" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
+        <state relative-caret-position="19">
+          <caret line="16" column="41" lean-forward="false" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
           <folding>
             <element signature="e#349#367#0" expanded="true" />
-            <element signature="e#516#1157#0" expanded="false" />
-            <element signature="e#1190#2014#0" expanded="false" />
-            <element signature="e#2042#2777#0" expanded="false" />
+            <element signature="e#558#1199#0" expanded="false" />
+            <element signature="e#1232#2056#0" expanded="false" />
+            <element signature="e#2084#2819#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thunder/nn/loss_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="50" column="17" lean-forward="false" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
+          <folding>
+            <element signature="e#352#370#0" expanded="true" />
           </folding>
         </state>
       </provider>
