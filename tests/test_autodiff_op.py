@@ -23,15 +23,17 @@ def test_dummy():
 
 
 def test_identity():
-    x2 = ad.Variable(name='x2')
-    y = x2
-    y_grad, = ad.gradients(y, [x2])
-    executor = ad.Executor([y, y_grad])
-    x2_val = 2 * np.ones(3)
-    y_val, y_grad_val = executor.run(feed_shapes={x2: x2_val})
-    assert isinstance(y, ad.Node)
-    assert np.array_equal(y_val, x2_val)
-    assert np.array_equal(y_grad_val, np.ones_like(x2_val))
+    x = ad.Variable(name='x')
+    y = ad.Variable(name='y')
+
+    z = x / y + 4
+
+    z_grad_x, z_grad_y = ad.gradients(z, [x, y])
+    executor = ad.Executor([z, z_grad_x, z_grad_y])
+    x_val = 2 * np.ones(1)
+    y_val = 3 * np.ones(1)
+    z_val, z_grad_x, z_grad_y = executor.run(feed_shapes={x: x_val, y: y_val})
+    print(z_val, z_grad_x, z_grad_y)
 
 
 if __name__ == '__main__':
