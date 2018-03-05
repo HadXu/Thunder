@@ -97,6 +97,58 @@ class PlaceholderOp(Op):
         return None
 
 
+class ZerosLikeOp(Op):
+    def __call__(self, node_A):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A]
+        new_node.name = 'Zeroslike({})'.format(node_A.name)
+        return new_node
+
+    def compute(self, node, input_vals, output_val, use_numpy=True):
+        assert len(input_vals) == 1
+        if use_numpy:
+            assert isinstance(input_vals[0], np.ndarray)
+            output_val[:] = np.zeros(input_vals[0].shape)
+        else:
+            gpu_op.array_set(output_val, 0)
+
+    def gradient(self, node, output_grads):
+        return [zeros_like(node.inputs[0])]
+
+    def infer_shape(self, node, input_shapes):
+        assert len(input_shapes) == 1
+        if input_shapes[0] == 1:  # TODO (upul) do we need this if ?
+            return (1,)
+        else:
+            return input_shapes[0]
+
+
+class OnesLikeOp(Op):
+    def __call__(self, node_A):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A]
+        new_node.name = 'Oneslike({})'.format(node_A.name)
+        return new_node
+
+    def compute(self, node, input_vals, output_val, use_numpy=True):
+        assert len(input_vals) == 1
+        if use_numpy:
+            assert isinstance(input_vals[0], np.ndarray)
+            output_val[:] = np.ones(input_vals[0].shape)
+        else:
+            gpu_op.array_set(output_val, 1)
+
+    def gradient(self, node, output_grads):
+        return [zeros_like(node.inputs[0])]
+
+    def infer_shape(self, node, input_shapes):
+        assert len(input_shapes) == 1
+        if input_shapes[0] == 1:  # TODO (upul) do we need this if ?
+            return (1,)
+        else:
+            return input_shapes[0]
+
+
 def Variable(name):
     placeholder_node = placeholder()
     placeholder_node.name = name
@@ -113,3 +165,5 @@ def Parameter(name, init):
 add = AddOp()
 add_const = AddByConstOp()
 placeholder = PlaceholderOp()
+zeros_like = ZerosLikeOp()
+ones_like = OnesLikeOp()

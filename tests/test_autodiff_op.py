@@ -25,11 +25,13 @@ def test_dummy():
 def test_identity():
     x2 = ad.Variable(name='x2')
     y = x2
-    executor = ad.Executor([y])
+    y_grad, = ad.gradients(y, [x2])
+    executor = ad.Executor([y, y_grad])
     x2_val = 2 * np.ones(3)
-    y_val, = executor.run(feed_shapes={x2: x2_val})
+    y_val, y_grad_val = executor.run(feed_shapes={x2: x2_val})
     assert isinstance(y, ad.Node)
     assert np.array_equal(y_val, x2_val)
+    assert np.array_equal(y_grad_val, np.ones_like(x2_val))
 
 
 if __name__ == '__main__':
