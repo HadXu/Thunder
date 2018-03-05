@@ -27,7 +27,6 @@ class Executor:
                 continue
 
             if isinstance(node.op, PlaceholderOp) and node.const is not None:
-                print(node)
                 self.node_to_shape_map[node] = node.const.shape
                 continue
 
