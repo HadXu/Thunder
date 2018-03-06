@@ -345,6 +345,57 @@ class PlaceholderOp(Op):
         pass
 
 
+class ReduceSumOp(Op):
+    def __call__(self, node_A):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A]
+        new_node.name = 'ReduceSum({0:s})'.format(node_A.name)
+        return new_node
+
+    def compute(self, node, input_vals, output_val, use_numpy=True):
+        assert len(input_vals) == 1
+        if use_numpy:
+            assert isinstance(output_val, np.ndarray)
+            output_val[:] = np.sum(input_vals[0], axis=0)
+        else:
+            gpu_op.reduce_sum_axis_zero(input_vals[0], output_val)
+
+    def gradient(self, node, output_grads):
+        return [output_grads]
+
+    def infer_shape(self, node, input_shapes):
+        assert len(input_shapes) == 1
+        if len(input_shapes[0]) == 1:
+            return (1,)
+        else:
+            return tuple(input_shapes[0][i]
+                         for i in range(1, len(input_shapes[0])))
+
+
+class BroadcastToOp(Op):
+    def __call__(self, node_A, node_B):
+        new_node = Op.__call__(self)
+        new_node.inputs = [node_A, node_B]
+        new_node.name = 'BroadcastTo({0:s}, {1:s}.shape)'.format(node_A.name, node_B.name)
+        return new_node
+
+    def compute(self, node, input_vals, output_val, use_numpy=True):
+        assert len(input_vals) == 2
+        if use_numpy:
+            output_val[:] = np.broadcast_to(input_vals[0], input_vals[1].shape)
+        else:
+            gpu_op.broadcast_to(input_vals[0], output_val)
+
+    def gradient(self, node, output_grads):
+        grad_A = reduce_sum(output_grads)
+        grad_B = zeros_like(node.inputs[1])
+        return [grad_A, grad_B]
+
+    def infer_shape(self, node, input_shapes):
+        assert len(input_shapes) == 2
+        return input_shapes[1]
+
+
 class ZerosLikeOp(Op):
     def __call__(self, node_A):
         new_node = Op.__call__(self)
@@ -425,5 +476,8 @@ div = DivOp()
 div_const = DivByConstOp()
 
 placeholder = PlaceholderOp()
+reduce_sum = ReduceSumOp()
+broadcast_to = BroadcastToOp()
+
 zeros_like = ZerosLikeOp()
 ones_like = OnesLikeOp()

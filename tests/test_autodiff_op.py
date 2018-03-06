@@ -91,6 +91,7 @@ def test_sigmoid():
 
     print(y_val, grad_x_val)
 
+
 def test_softmax():
     x2_pred = ad.Variable(name='x2_pred')
     x2_actu = ad.Variable(name='x2_actu')
@@ -103,7 +104,35 @@ def test_softmax():
     executor = ad.Executor([y, x2_pred_grad, x2_actu_grad])
     y_val, x2_pred_grad_val, x2_actu_grad_val = executor.run(feed_shapes={x2_pred: x2_pred_val, x2_actu: x2_actu_val})
 
-    print(x2_pred_grad_val)
+
+def test_reducesum():
+    x2 = ad.Variable(name='x2')
+    y = ad.reduce_sum(x2)
+    grad_x2, = ad.gradients(y, [x2])
+    executor = ad.Executor([y, grad_x2])
+    x2_val = np.array([[1, 2, 3], [4, 5, 6]])
+    y_val, grad_x2_val = executor.run(feed_shapes={x2: x2_val})
+
+    assert isinstance(y, ad.Node)
+    assert np.array_equal(y_val, np.array([5, 7, 9]))
+    assert np.array_equal(grad_x2_val, np.array([1, 1, 1]))
+
+
+def test_broadcast_to():
+    x2 = ad.Variable(name='x2')
+    x3 = ad.Variable(name='x3')
+    y = ad.broadcast_to(x2, x3)
+
+    grad_x2, grad_x3 = ad.gradients(y, [x2, x3])
+    executor = ad.Executor([y, grad_x2, grad_x3])
+    x2_val = np.array([[1, 2, 3]])
+    x3_val = np.zeros((3, 3))
+    y_val, grad_x2_val, grad_x3_val = executor.run(feed_shapes={x2: x2_val, x3: x3_val})
+
+    # asserts
+    assert isinstance(y, ad.Node)
+    assert np.array_equal(y_val, np.array([[1, 2, 3], [1, 2, 3], [1, 2, 3]]))
+    assert np.array_equal(grad_x2_val, np.array([3, 3, 3]))
 
 
 if __name__ == '__main__':
@@ -113,3 +142,5 @@ if __name__ == '__main__':
     test_relu()
     test_sigmoid()
     test_softmax()
+    test_reducesum()
+    test_broadcast_to()

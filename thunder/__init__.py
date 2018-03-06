@@ -1,6 +1,8 @@
 import thunder.nn
+import thunder.datasets
+import thunder.optim
 
-__all__ = ['nn']
+__all__ = ['nn', 'datasets', 'optim']
 
 try:
     from thunder.ndarray import gpu_op
