@@ -8,3 +8,19 @@ A small deep-learning framework with C++/Python/CUDA
 * MXnet
 * Tensorflow
 * Auora
+
+## 使用方法
+
+```
+git clone https://github.com/HadXu/Thunder.git
+cd cuda
+make
+```
+
+进入 examples
+
+```
+python mnist
+```
+
+欢迎提出意见
