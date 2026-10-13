@@ -54,7 +54,7 @@ def build_graph(X, y, input_size, hid_1_size, hid_2_size, output_size):
 
 
 if __name__ == '__main__':
-    use_gpu = False
+    use_gpu = True
     data = th.datasets.MNIST(batch_size=128)
 
     batch_generator = data.train_batch_generator()
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     hid_2_size = 100
     output_size = 10
 
-    lr = 1e-3
+    lr = 0.1
 
     X = ad.Variable(name="X")
     y = ad.Variable(name='y')
@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
     optimizer = th.optim.SGD(loss, params=[W1, b1, W2, b2, W3, b3], lr=lr, use_gpu=use_gpu)
 
-    for i in range(100):
+    for i in range(10000):
         X_batch, y_batch = next(batch_generator)
         loss_now = optimizer.step(feed_dict={X: X_batch, y: y_batch})
         if i <= 10 or (i <= 100 and i % 10 == 0) or (i <= 1000 and i % 100 == 0) or (i <= 10000 and i % 500 == 0):

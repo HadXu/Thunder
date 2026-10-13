@@ -88,7 +88,7 @@ class SigmoidOp(Op):
         return [g * output_grads]
 
     def infer_shape(self, node, input_shapes):
-        assert len(input_shapes)
+        assert len(input_shapes) == 1
         return input_shapes[0]
 
 

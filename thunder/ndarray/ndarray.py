@@ -138,7 +138,7 @@ def array(arr, ctx=cpu(0)):
 
 def empty(shape, ctx=cpu(0)):
     shape = c_array(ctypes.c_int64, shape)
-    ndim = ctypes.c_int(len(shape))
+    ndim = ctypes.c_int64(len(shape))
     handle = DLArrayHandle()
     check_call(_LIB.DLArrayAlloc(
         shape, ndim, ctx, ctypes.byref(handle)))
@@ -148,6 +148,6 @@ def empty(shape, ctx=cpu(0)):
 def reshape(arr, new_shape):
     assert isinstance(arr, _nd.NDArray)
     shape = c_array(ctypes.c_int64, new_shape)
-    new_dim = len(new_shape)
+    new_dim = ctypes.c_int64(len(new_shape))
     handle = arr.handle
     check_call(_LIB.DLArrayReshape(handle, shape, new_dim))

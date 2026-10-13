@@ -1,0 +1,19 @@
+[project]
+name = "thunder"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.2.6",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["thunder*"]
+
+[tool.setuptools.package-data]
+"thunder.datasets" = ["data/*.pkl.gz"]

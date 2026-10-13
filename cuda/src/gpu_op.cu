@@ -14,35 +14,32 @@ __global__ void matrix_softmax_cross_entropy_kernel(int nrow, int ncol,
                                                     const float *input_a, const float *input_b, float *output) {
     // Dynamic shared memory, size provided at kernel launch.
     extern __shared__ float loss_per_row[];
-    // Two dimensional thread blocks.
-    int y = blockIdx.x * blockDim.x * blockDim.y + threadIdx.y * blockDim.x
-            + threadIdx.x;
-    if (y >= nrow) {
-        return;
+    // Single block; each thread handles rows threadIdx.x, threadIdx.x + blockDim.x, ...
+    for (int y = threadIdx.x; y < nrow; y += blockDim.x) {
+        const float *row_a = input_a + y * ncol;
+        const float *row_b = input_b + y * ncol;
+        float maxval = row_a[0];
+        // Find max for a row.
+        for (int x = 1; x < ncol; ++x) {
+            maxval = max(maxval, row_a[x]);
+        }
+        // Deduct by max for a row, and raise to exp.
+        float sum = 0;
+        for (int x = 0; x < ncol; ++x) {
+            sum += exp(row_a[x] - maxval);
+        }
+        // Compute per-row loss: log(softmax) = (a - max) - log(sum).
+        float log_sum = log(sum);
+        float loss = 0;
+        for (int x = 0; x < ncol; ++x) {
+            loss -= row_b[x] * (row_a[x] - maxval - log_sum);
+        }
+        loss_per_row[y] = loss;
     }
-    input_a += y * ncol;
-    input_b += y * ncol;
-    float maxval = *input_a;
-    // Find max for a row.
-    for (int x = 1; x < ncol; ++x) {
-        maxval = max(maxval, input_a[x]);
-    }
-    // Deduct by max for a row, and raise to exp.
-    float sum = 0;
-    for (int x = 0; x < ncol; ++x) {
-        sum += exp(input_a[x] - maxval);
-    }
-    // Compute per-row loss.
-    float loss = 0;
-    for (int x = 0; x < ncol; ++x) {
-        loss -= input_b[x] * log(exp(input_a[x] - maxval) / sum);
-    }
-    loss_per_row[y] = loss;
     __syncthreads();
-    // Compute reduce_mean across rows.
-    float mean_loss = 0;
     // Use a single thread to reduce mean across rows.
-    if ((threadIdx.x == 0) && (threadIdx.y == 0)) {
+    if (threadIdx.x == 0) {
+        float mean_loss = 0;
         for (int i = 0; i < nrow; ++i) {
             mean_loss += loss_per_row[i];
         }
@@ -511,7 +508,7 @@ __global__ void softmax_kernel(int64_t nrow, int64_t ncol,
                                float *output_data) {
 
 // two dimensional thread blocks.
-    int y = blockIdx.x * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;
+    int y = blockIdx.x * blockDim.x + threadIdx.x;
     if (y >= nrow) {
         return;
     }
@@ -544,14 +541,11 @@ int DLGpuSoftmax(const DLArrayHandle input, DLArrayHandle output) {
     int64_t ncol = input->shape[1];
     float *input_data = (float *) input->data;
     float *output_data = (float *) output->data;
-    dim3 threads;
-    if (nrow < 1024) {
-        threads.x = nrow;
-    } else {
-        threads.x = 1024;
-        threads.y = (nrow + 1023) / 1024;
-    }
-    softmax_kernel << < 1, threads >> > (nrow, ncol, input_data, output_data);
+    // One thread per row; the original single-block launch exceeded the
+    // 1024 threads/block limit once nrow > 1024.
+    int threads_per_block = 256;
+    int num_blocks = (nrow + threads_per_block - 1) / threads_per_block;
+    softmax_kernel << < num_blocks, threads_per_block >> > (nrow, ncol, input_data, output_data);
     return 0;
 }
 
@@ -572,13 +566,7 @@ int DLGpuSoftmaxCrossEntropy(const DLArrayHandle input_a,
     const float *input_data_a = (const float *) input_a->data;
     const float *input_data_b = (const float *) input_b->data;
     float *output_data = (float *) output->data;
-    dim3 threads;
-    if (nrow <= 1024) {
-        threads.x = nrow;
-    } else {
-        threads.x = 1024;
-        threads.y = (nrow + 1023) / 1024;
-    }
+    int threads = nrow < 1024 ? nrow : 1024;
     // 1 block, each block with 'threads' number of threads with 'nrow' shared
     // memory size
     matrix_softmax_cross_entropy_kernel << < 1, threads, nrow * sizeof(float) >> > (

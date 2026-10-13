@@ -72,7 +72,7 @@ class AddOp(Op):
         if use_numpy:
             output_val[:] = input_vals[0] + input_vals[1]
         else:
-            pass
+            gpu_op.matrix_elementwise_add(input_vals[0], input_vals[1], output_val)
 
     def gradient(self, node, output_grads):
 
@@ -97,7 +97,7 @@ class AddByConstOp(Op):
         if use_numpy:
             output_val[:] = node.const + input_vals[0]
         else:
-            pass
+            gpu_op.matrix_elementwise_add_by_const(input_vals[0], node.const, output_val)
 
     def gradient(self, node, output_grads):
         return [output_grads]
@@ -165,7 +165,12 @@ class ReflectedSubByConstOp(Op):
 
     def compute(self, node, input_vals, output_val, use_numpy=True):
         assert len(input_vals) == 1
-        return node.const - input_vals[0]
+        if use_numpy:
+            output_val[:] = node.const - input_vals[0]
+        else:
+            # const - x = (x * -1) + const
+            gpu_op.matrix_elementwise_multiply_by_const(input_vals[0], -1.0, output_val)
+            gpu_op.matrix_elementwise_add_by_const(output_val, node.const, output_val)
 
     def gradient(self, node, output_grads):
         return [-1 * output_grads]
@@ -198,7 +203,8 @@ class MulOp(Op):
                 const_val = input_vals[1].asnumpy()[0]
                 gpu_op.matrix_elementwise_multiply_by_const(input_vals[0], const_val, output_val)
             else:
-                pass  # TODO (upul) handle ip_1_shape != ip_2_shape
+                raise NotImplementedError(
+                    'GPU MulOp does not support shapes {} and {}'.format(ip_1_shape, ip_2_shape))
 
     def gradient(self, node, output_grads):
         return [node.inputs[1] * output_grads, node.inputs[0] * output_grads]
@@ -212,7 +218,7 @@ class MulOp(Op):
         elif input_shapes[0] == input_shapes[1]:
             return input_shapes[0]
         else:
-            stmt = 'Invalid dimensions {0:s}, (1:s)'.format(input_shapes[0], input_shapes[1])
+            stmt = 'Invalid dimensions {0}, {1}'.format(input_shapes[0], input_shapes[1])
             raise RuntimeError(stmt)
 
 
@@ -246,17 +252,15 @@ class MatMulOp(Op):
         new_node.inputs = [node_A, node_B]
         new_node.trans_A = trans_A
         new_node.trans_B = trans_B
-        new_node.name = 'MatMul({0:s}, {1:s}'.format(node_A.name, node_B.name)
+        new_node.name = 'MatMul({0:s}, {1:s})'.format(node_A.name, node_B.name)
         return new_node
 
     def compute(self, node, input_vals, output_val, use_numpy=True):
         assert len(input_vals) == 2
         if use_numpy:
-            if node.trans_A:
-                input_vals[0] = input_vals[0].T
-            if node.trans_B:
-                input_vals[1] = input_vals[1].T
-            output_val[:] = np.dot(input_vals[0], input_vals[1])
+            a = input_vals[0].T if node.trans_A else input_vals[0]
+            b = input_vals[1].T if node.trans_B else input_vals[1]
+            output_val[:] = np.dot(a, b)
         else:
             gpu_op.matrix_multiply(
                 input_vals[0], node.trans_A,
@@ -361,7 +365,7 @@ class ReduceSumOp(Op):
             gpu_op.reduce_sum_axis_zero(input_vals[0], output_val)
 
     def gradient(self, node, output_grads):
-        return [output_grads]
+        return [broadcast_to(output_grads, node.inputs[0])]
 
     def infer_shape(self, node, input_shapes):
         assert len(input_shapes) == 1

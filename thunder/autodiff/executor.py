@@ -46,6 +46,8 @@ class Executor:
         for node in self.topo_order:
             if node in feed_shapes:
                 continue
+            if isinstance(node.op, PlaceholderOp) and node.const is not None:
+                continue
             self.node_to_arr_map[node] = ndarray.empty(self.node_to_shape_map[node], ctx=self.ctx)
 
     def run(self, feed_shapes, convert_to_numpy_ret_vals=False):
@@ -102,9 +104,3 @@ class Executor:
 
         return [node_to_val_map[n] for n in self.eval_node_list]
 
-    @staticmethod
-    def _are_feed_shapes_equal(sa, sb):
-        if (not isinstance(sa, dict)) or (not isinstance(sb, dict)):
-            return False
-        unmatched_items = set(sa.items()) ^ set(sb.items())
-        return len(unmatched_items)

@@ -44,6 +44,9 @@ DLSYS_EXTERN_C {
     int DLGpuMatrixMultiplyByConst(const DLArrayHandle input, float val,
                                DLArrayHandle output);
 
+    int DLGpuMatrixElementwiseDiv(const DLArrayHandle matA,
+                              const DLArrayHandle matB, DLArrayHandle output);
+
     int DLGpuMatrixElementwiseDivByConst(const DLArrayHandle matA, float val,
                                      DLArrayHandle output);
 

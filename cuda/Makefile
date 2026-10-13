@@ -1,4 +1,5 @@
-CUDA_DIR = /usr/local/cuda
+# 默认取 nvcc 所在的 CUDA 安装目录，可用 make CUDA_DIR=... 覆盖
+CUDA_DIR ?= $(patsubst %/bin/nvcc,%,$(shell which nvcc))
 
 CC_SRCS := $(wildcard src/*.cc)
 CC_OBJS := ${CC_SRCS:src/%.cc=build/obj/%.o}
@@ -13,10 +14,14 @@ LD_FLAGS = -L$(CUDA_DIR)/lib64 -lcuda -lcudart -lcublas
 
 NVCC = nvcc
 NVCC_FLAGS = -std=c++11 --compiler-options '-fPIC'
-ARCH = -gencode arch=compute_30,code=sm_30 \
-       -gencode arch=compute_35,code=sm_35 \
-       -gencode arch=compute_50,code=[sm_50,compute_50] \
-       -gencode arch=compute_52,code=[sm_52,compute_52]
+# CUDA 12 已不支持 compute_30/35；最后一项生成 PTX，供更新的 GPU（如 sm_120）JIT 运行
+ARCH ?= -gencode arch=compute_60,code=sm_60 \
+        -gencode arch=compute_70,code=sm_70 \
+        -gencode arch=compute_75,code=sm_75 \
+        -gencode arch=compute_80,code=sm_80 \
+        -gencode arch=compute_86,code=sm_86 \
+        -gencode arch=compute_89,code=sm_89 \
+        -gencode arch=compute_90,code=[sm_90,compute_90]
 
 all: build/lib/libc_runtime_api.so
 
@@ -35,4 +40,4 @@ build/obj/%.o: src/%.cu
 clean:
 	rm -rf build
 
-.PHONY: clean
+.PHONY: all clean

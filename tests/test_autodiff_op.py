@@ -115,7 +115,7 @@ def test_reducesum():
 
     assert isinstance(y, ad.Node)
     assert np.array_equal(y_val, np.array([5, 7, 9]))
-    assert np.array_equal(grad_x2_val, np.array([1, 1, 1]))
+    assert np.array_equal(grad_x2_val, np.ones((2, 3)))
 
 
 def test_broadcast_to():

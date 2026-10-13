@@ -121,6 +121,7 @@ int DLArrayReshape(const DLArrayHandle handle, const index_t *new_shape, index_t
 
         index_t *shape_copy = new index_t[new_dim];
         std::copy(new_shape, new_shape + new_dim, shape_copy);
+        delete[] arr->shape;
         arr->shape = shape_copy;
         arr->ndim = new_dim;
     API_END();
